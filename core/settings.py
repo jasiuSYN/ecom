@@ -26,12 +26,13 @@ SECRET_KEY = "django-insecure-8c&&mr2he-3&!!v2*w2o2a!jb+t3ho+@)k46ek1rru==k4kr9e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["yourdomain.com", "127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "basket",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -119,6 +120,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
