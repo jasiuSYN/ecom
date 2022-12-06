@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+
+from .basket import Basket
+from store.models import Product
 
 
 def basket_summary(request):
@@ -6,3 +10,14 @@ def basket_summary(request):
         request,
         "store/basket/summary.html",
     )
+
+
+def basket_add(request):
+    print("elo", request)
+    basket = Basket(request)
+    if request.POST.get("action") == "post":
+        product_id = int(request.POST.get("productid"))
+        product = get_object_or_404(Product, id=product_id)
+        basket.add(product=product)
+        response = JsonResponse({"test": "data"})
+        return response
