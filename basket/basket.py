@@ -15,16 +15,6 @@ class Basket:
             basket = self.session["skey"] = {}
         self.basket = basket
 
-    def add(self, product, qty):
-        """
-        Adding and updating the users basket session data
-        """
-        product_id = product.id
-        if product_id not in self.basket:
-            self.basket[product_id] = {"price": str(product.price), "qty": int(qty)}
-
-        self.session.modified = True
-
     def __iter__(self):
         """
         Collect the product_id in the session data to query the database
@@ -47,6 +37,29 @@ class Basket:
         Get the basket data and count the qty of items
         """
         return sum(item["qty"] for item in self.basket.values())
+
+    def add(self, product, qty):
+        """
+        Adding and updating the users basket session data
+        """
+        product_id = product.id
+        if product_id not in self.basket:
+            self.basket[product_id] = {"price": str(product.price), "qty": int(qty)}
+
+        self.save()
+
+    def delete(self, product):
+        """
+        Delete item from session data
+        """
+        product_id = str(product)
+        if product_id in self.basket:
+            del self.basket[product_id]
+
+        self.save()
+
+    def save(self):
+        self.session.modified = True
 
     def get_total_price(self):
         return sum(
